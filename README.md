@@ -147,5 +147,6 @@ const $tooltips3 = StorePress.Utils.getStorePressPlugin('tooltip').get()
 
 - Add Tag - `git tag $(node -p "require('./package.json').version") && git push origin "$_"`
 - Delete Tag - `git tag -d $(node -p "require('./package.json').version") && git push origin --delete "$_"`
-- Publish - `npm login`
+- Login - `npm login`
+- Dry Run - `npm publish --dry-run`
 - Publish - `npm publish`
