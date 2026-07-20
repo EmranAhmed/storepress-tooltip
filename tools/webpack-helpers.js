@@ -2,20 +2,20 @@
 /**
  * External dependencies
  */
-const { getProjectSourcePath } = require('@wordpress/scripts/utils/config')
-const { fromProjectRoot } = require('@wordpress/scripts/utils/file')
-const { sep } = require('path')
+const {getProjectSourcePath} = require('@wordpress/scripts/utils/config')
+const {fromProjectRoot}      = require('@wordpress/scripts/utils/file')
+const {sep}                  = require('path')
 
 // jquery --> window.jQuery
 // react-dom --> window.ReactDOM
 // Add `slick-carousel`, `@woocommerce/blocks-registry`,`@woocommerce/settings` on `.eslintrc.js` -> 'import/core-modules'
 const externalScriptsMap = {
-	'@storepress/utils': ['StorePress', 'Utils'],
+	'@storepress/utils' : ['StorePress', 'Utils'],
 }
 
 // @babel/runtime/regenerator --> wp-polyfill
 const scriptHandleMap = {
-	'@storepress/utils': 'storepress-utils',
+	'@storepress/utils' : 'storepress-utils',
 }
 
 const externalModulesMap = {
@@ -37,7 +37,7 @@ const externalModulesMap = {
  * @return {string|string[]|undefined} The resulting external definition. Return `undefined`
  *   to ignore the request. Return `string|string[]` to map the request to an external.
  */
-function requestToExternal (request) {
+function requestToExternal(request) {
 	if (externalScriptsMap[request]) {
 		return externalScriptsMap[request]
 	}
@@ -54,7 +54,7 @@ function requestToExternal (request) {
  * @return {string|undefined} WordPress script handle to map the request to. Return `undefined`
  *   to use the same name as the module.
  */
-function requestToHandle (request) {
+function requestToHandle(request) {
 	if (scriptHandleMap[request]) {
 		return scriptHandleMap[request]
 	}
@@ -76,24 +76,24 @@ function requestToHandle (request) {
  *   - Return `string` to map the request to an external.
  *   - Return `Error` to emit an error.
  */
-function requestToExternalModule (request) {
+function requestToExternalModule(request) {
 	if (externalModulesMap[request]) {
 		return externalModulesMap[request]
 	}
 }
 
-function getFile (fileName) {
+function getFile(fileName) {
 	return fromProjectRoot(getProjectSourcePath() + sep + fileName)
 }
 
-function getRootFile (fileName) {
+function getRootFile(fileName) {
 	return fromProjectRoot(fileName)
 }
 
-function getWebPackAlias () {
+function getWebPackAlias() {
 	return {
 		// '@utils': getFile('utils/Plugin'), // Add @utils on .eslintrc.js -> 'import/core-modules'
-		'@storepress/tooltip': getFile('index.js'),
+		'@storepress/tooltip' : getFile('index.js'),
 	}
 }
 

@@ -3,48 +3,517 @@
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>StorePress ToolTip Demo</title>
+	<title>StorePress Tooltip — Demo &amp; Usage</title>
 
-	<link rel="stylesheet" href="./global-style.css" />
 	<link rel="stylesheet" href="./build/style-tooltip.css" />
 
 	<script src="./build/storepress-utils.js"></script>
 	<script src="./build/tooltip.js"></script>
-</head>
 
+	<style>
+		:root {
+			color-scheme: light dark;
+			--page-bg: #f6f7f9;
+			--page-fg: #1c1e21;
+			--card-bg: #ffffff;
+			--card-border: #e3e5e8;
+			--muted: #6b7280;
+			--accent: #6d28d9;
+			--code-bg: #f0f0f3;
+			}
+
+		* {
+			box-sizing: border-box;
+			}
+
+		body {
+			font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+			background: var(--page-bg);
+			color: var(--page-fg);
+			margin: 0;
+			line-height: 1.5;
+			}
+
+		header.hero {
+			padding: 56px 24px 40px;
+			text-align: center;
+			background: linear-gradient(180deg, #ede9fe 0%, var(--page-bg) 100%);
+			border-bottom: 1px solid var(--card-border);
+			}
+
+		header.hero h1 {
+			margin: 0 0 8px;
+			font-size: 2.1rem;
+			}
+
+		header.hero p {
+			margin: 0 auto;
+			max-width: 640px;
+			color: var(--muted);
+			}
+
+		nav.toc {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 8px;
+			justify-content: center;
+			margin-top: 20px;
+			}
+
+		nav.toc a {
+			font-size: 0.85rem;
+			padding: 6px 12px;
+			border-radius: 999px;
+			background: var(--card-bg);
+			border: 1px solid var(--card-border);
+			color: var(--accent);
+			text-decoration: none;
+			}
+
+		nav.toc a:hover {
+			background: var(--accent);
+			color: #fff;
+			border-color: var(--accent);
+			}
+
+		main {
+			max-width: 960px;
+			margin: 0 auto;
+			padding: 40px 24px 100px;
+			}
+
+		section {
+			margin-bottom: 56px;
+			scroll-margin-top: 20px;
+			}
+
+		section h2 {
+			font-size: 1.35rem;
+			margin-bottom: 4px;
+			}
+
+		section .lede {
+			color: var(--muted);
+			margin-top: 0;
+			margin-bottom: 20px;
+			max-width: 700px;
+			}
+
+		.card {
+			background: var(--card-bg);
+			border: 1px solid var(--card-border);
+			border-radius: 12px;
+			padding: 28px;
+			}
+
+		.row {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 20px;
+			align-items: center;
+			}
+
+		.row.spaced {
+			justify-content: space-between;
+			}
+
+		.swatch {
+			--item-width: 48px;
+			width: var(--item-width);
+			aspect-ratio: 1;
+			border-radius: 50%;
+			position: relative;
+			cursor: pointer;
+			border: none;
+			flex-shrink: 0;
+			}
+
+		.swatch:focus-visible {
+			outline: 2px solid var(--accent);
+			outline-offset: 3px;
+			}
+
+		.pill {
+			padding: 10px 18px;
+			border-radius: 8px;
+			border: none;
+			background: #333;
+			color: #fff;
+			cursor: pointer;
+			font-size: 0.9rem;
+			position: relative;
+			}
+
+		.chip-btn {
+			padding: 8px 14px;
+			border-radius: 8px;
+			border: 1px solid var(--card-border);
+			background: var(--card-bg);
+			color: var(--page-fg);
+			cursor: pointer;
+			font-size: 0.85rem;
+			}
+
+		.chip-btn:hover {
+			border-color: var(--accent);
+			color: var(--accent);
+			}
+
+		pre .line-number {
+			float:left;
+			margin:0 1em 0 -1em;
+			border-right:1px solid;
+			text-align:right;
+			}
+
+		pre .line-number span {
+			display:block;
+			padding:0 .5em 0 1em;
+			}
+
+		pre .cl {
+			display:block;
+			clear:both;
+			}
+
+		code, pre {
+			font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+			font-size: 0.85rem;
+			}
+
+		code {
+			background: var(--code-bg);
+			padding: 2px 6px;
+			border-radius: 4px;
+			}
+
+		pre {
+			background: var(--code-bg);
+			padding: 16px;
+			border-radius: 8px;
+			overflow-x: auto;
+			margin: 14px 0 0;
+			}
+
+		pre code {
+			background: none;
+			padding: 0;
+			}
+
+		table {
+			width: 100%;
+			border-collapse: collapse;
+			font-size: 0.85rem;
+			margin-top: 14px;
+			}
+
+		th, td {
+			text-align: left;
+			padding: 8px 10px;
+			border-bottom: 1px solid var(--card-border);
+			vertical-align: top;
+			}
+
+		th {
+			color: var(--muted);
+			font-weight: 600;
+			}
+
+		.edge-row {
+			display: flex;
+			justify-content: space-between;
+			margin-top: 40px;
+			}
+
+		.edge-row .swatch {
+			margin: 0;
+			}
+
+		.rtl-block {
+			direction: rtl;
+			padding: 20px;
+			border: 1px dashed var(--card-border);
+			border-radius: 8px;
+			margin-top: 16px;
+			}
+
+		.status {
+			margin-top: 16px;
+			font-size: 0.85rem;
+			color: var(--muted);
+			min-height: 1.2em;
+			}
+
+		.badge {
+			display: inline-block;
+			font-size: 0.7rem;
+			text-transform: uppercase;
+			letter-spacing: 0.04em;
+			background: var(--accent);
+			color: #fff;
+			padding: 2px 8px;
+			border-radius: 999px;
+			margin-left: 8px;
+			vertical-align: middle;
+			}
+
+		@media (prefers-color-scheme: dark) {
+			:root {
+				--page-bg: #000000;
+				--page-fg: #e7e8ea;
+				--card-bg: #1f2023;
+				--card-border: #2c2d31;
+				--muted: #9a9ba1;
+				--code-bg: #26272b;
+				}
+
+			header.hero {
+				background: linear-gradient(180deg, #040d51 0%, var(--page-bg) 100%);
+				}
+			}
+
+
+
+
+
+	</style>
+</head>
 <body>
 
-<ul>
+<header class="hero">
+	<h1>StorePress Tooltip</h1>
+	<p>A lightweight, dependency-free tooltip plugin driven entirely by <code>data-*</code> attributes and CSS custom properties. No JS positioning math to fight, no extra markup — hover, focus, or tap any example below.</p>
 
+	<nav class="toc">
+		<a href="#basic">Basic</a>
+		<a href="#colors">Colors</a>
+		<a href="#sizing">Sizing</a>
+		<a href="#image">Image tooltips</a>
+		<a href="#edges">Viewport edges</a>
+		<a href="#rtl">RTL</a>
+		<a href="#accessibility">Accessibility</a>
+		<a href="#api">JS API</a>
+		<a href="#install">Install</a>
+	</nav>
+</header>
 
-	<li tabindex="0" class="item-01 item storepress-tooltip-type-image" style="background-color: darkred; --tooltip-image: url('https://picsum.photos/150')" data-storepress-tooltip="Monotone"></li>
-	<li tabindex="0" class="item-02 item storepress-tooltip-type-image" style="background-color: coral; --tooltip-image: url('https://picsum.photos/200')" data-storepress-tooltip="Monotone ctallysyndicatemarketpositioning."></li>
+<main>
 
-	<li tabindex="0" class="item-03 item" style="background-color: crimson" data-storepress-tooltip="Monotonectally syndicate market positioning."></li>
-	<li tabindex="0" class="item-04 item" style="background-color: blueviolet" data-storepress-tooltip="Rapidiously exploit effective e-tailers."></li>
-	<li tabindex="0" class="item" style="background-color: brown" data-storepress-tooltip="Energistically reintermediate resource sucking."></li>
-	<li tabindex="0" class="item" style="background-color: cadetblue" data-storepress-tooltip="Energistically utilize user."></li>
-	<li class="item" style="background-color: aqua" data-storepress-tooltip="Dynamically productize plug-and-play."></li>
-	<li class="item" style="background-color: chocolate" data-storepress-tooltip="Reintermediate resource"></li>
-	<li class="item" style="background-color: darkslategray" data-storepress-tooltip="Effective e-tailers"></li>
-	<li class="item" style="background-color: deepskyblue" data-storepress-tooltip="Syndicate market"></li>
-	<li class="item" style="background-color: khaki" data-storepress-tooltip="Cross-media"></li>
-	<li class="item" style="background-color: #282828" data-storepress-tooltip="Distinctively expedite cross-media models through B2C leadership skills. "></li>
-</ul>
+	<section id="basic">
+		<h2>Basic usage</h2>
+		<p class="lede">Add <code>data-storepress-tooltip="…"</code> to any element. That's it — the plugin auto-initializes on <code>DOMContentLoaded</code> and reads the tooltip text straight from the attribute.</p>
+		<div class="card row">
+			<button class="pill" type="button" data-storepress-tooltip="Hover over me">Hover me</button>
+			<a href="#basic" class="pill" style="background: var(--accent); text-decoration:none; display:inline-block;" data-storepress-tooltip="Links work too">A link</a>
+			<span class="pill" style="background:#2563eb;" tabindex="0" data-storepress-tooltip="Focus me with Tab">Focusable span</span>
+		</div>
+		<pre><code>&lt;button data-storepress-tooltip="Hover over me"&gt;Hover me&lt;/button&gt;
+&lt;a href="#" data-storepress-tooltip="Links work too"&gt;A link&lt;/a&gt;
+&lt;span tabindex="0" data-storepress-tooltip="Focus me with Tab"&gt;Focusable span&lt;/span&gt;</code></pre>
+	</section>
 
-<div class="content">
+	<section id="colors">
+		<h2>Custom colors</h2>
+		<p class="lede">Styling is entirely CSS-driven. Override <code>--tooltip-text-color</code> and <code>--tooltip-background-color</code> per element (or scope them to any selector).</p>
+		<div class="card row">
+			<button class="pill" type="button" data-storepress-tooltip="Default colors">Default</button>
+			<button class="pill" style="--tooltip-background-color:#e31616; --tooltip-text-color:#ffffff;" type="button" data-storepress-tooltip="Danger style">Danger</button>
+			<button class="pill" style="--tooltip-background-color:#16a34a; --tooltip-text-color:#ffffff;" type="button" data-storepress-tooltip="Success style">Success</button>
+			<button class="pill" style="--tooltip-background-color:#eab308; --tooltip-text-color:#1c1e21;" type="button" data-storepress-tooltip="Warning style">Warning</button>
+			<button class="pill" style="--tooltip-background-color:#ffffff; --tooltip-text-color:#111827; box-shadow: inset 0 0 0 1px #d1d5db;" type="button" data-storepress-tooltip="Light style">Light</button>
+		</div>
+		<pre><code>
+			[data-storepress-tooltip] {
+  --tooltip-background-color: #e31616;
+  --tooltip-text-color: #ffffff;
+}</code></pre>
+	</section>
 
-	<div class="item" style="background-color: coral" data-storepress-tooltip="Hello StorePress One"></div>
-	<div class="item" style="background-color: aqua" data-storepress-tooltip="Hello StorePress Two"></div>
-	<div class="item" style="background-color: chartreuse" data-storepress-tooltip="Hello StorePress Three"></div>
-	<div class="item" style="background-color: blue" data-storepress-tooltip="Hello StorePress Four"></div>
-	<div class="item" style="background-color: brown" data-storepress-tooltip="Hello StorePress Five"></div>
-	<div class="item" style="background-color: cadetblue" data-storepress-tooltip="Hello StorePress Six"></div>
-	<div class="item" style="background-color: blueviolet" data-storepress-tooltip="Hello StorePress Seven"></div>
-	<div class="item" style="background-color: black" data-storepress-tooltip="Hello StorePress Eight"></div>
-	<div class="item" style="background-color: darkseagreen" data-storepress-tooltip="Hello StorePress Nine"></div>
-	<div class="item" style="background-color: crimson" data-storepress-tooltip="Hello StorePress Ten"></div>
+	<section id="sizing">
+		<h2>Sizing &amp; spacing</h2>
+		<p class="lede">Fine-tune the bubble with <code>--tooltip-font-size</code>, <code>--tooltip-max-width</code>, <code>--tooltip-padding</code>, <code>--tooltip-offset</code> (distance from the trigger) and <code>--tooltip-angle</code> (arrow size).</p>
+		<div class="card row">
+			<button class="pill" type="button" data-storepress-tooltip="Default sizing">Default</button>
+			<button class="pill" style="--tooltip-font-size:11px; --tooltip-padding:6px; --tooltip-offset:2px; --tooltip-angle:3px;" type="button" data-storepress-tooltip="Compact">Compact</button>
+			<button class="pill" style="--tooltip-font-size:18px; --tooltip-padding:14px; --tooltip-offset:12px; --tooltip-max-width:260px;" type="button" data-storepress-tooltip="A larger tooltip with more breathing room and a wider max-width for longer copy.">Large / wide</button>
+		</div>
+		<table>
+			<thead><tr><th>Custom property</th><th>Purpose</th><th>Default</th></tr></thead>
+			<tbody>
+			<tr><td><code>--tooltip-text-color</code></td><td>Text color</td><td><code>#fff</code></td></tr>
+			<tr><td><code>--tooltip-background-color</code></td><td>Bubble + arrow color</td><td><code>#333</code></td></tr>
+			<tr><td><code>--tooltip-font-size</code></td><td>Text size</td><td><code>15px</code></td></tr>
+			<tr><td><code>--tooltip-max-width</code></td><td>Bubble max width (and image size)</td><td><code>150px</code></td></tr>
+			<tr><td><code>--tooltip-min-height</code></td><td>Bubble min height</td><td><code>30px</code></td></tr>
+			<tr><td><code>--tooltip-padding</code></td><td>Bubble padding</td><td><code>10px</code></td></tr>
+			<tr><td><code>--tooltip-offset</code></td><td>Gap between trigger and bubble</td><td><code>5px</code></td></tr>
+			<tr><td><code>--tooltip-angle</code></td><td>Arrow size</td><td><code>5px</code></td></tr>
+			<tr><td><code>--tooltip-image</code></td><td>Image URL for image tooltips</td><td><code>none</code></td></tr>
+			</tbody>
+		</table>
+	</section>
 
-</div>
+	<section id="image">
+		<h2>Image tooltips</h2>
+		<p class="lede">Set the <code>--tooltip-image</code> custom property to a <code>url(...)</code> and the same attribute doubles as an image preview. Add <code>.storepress-tooltip-type-image</code> as a fallback for browsers without <code>@container style()</code> support.</p>
+		<div class="card row">
+			<div class="swatch storepress-tooltip-type-image" tabindex="0" style="background-color: darkred; --tooltip-image: url('https://picsum.photos/seed/sp1/150')" data-storepress-tooltip="Random image one"></div>
+			<div class="swatch storepress-tooltip-type-image" tabindex="0" style="background-color: coral; --tooltip-image: url('https://picsum.photos/seed/sp2/150')" data-storepress-tooltip="Random image two"></div>
+			<div class="swatch storepress-tooltip-type-image" tabindex="0" style="background-color: cadetblue; --tooltip-image: url('https://picsum.photos/seed/sp3/150')" data-storepress-tooltip="Random image three"></div>
+		</div>
+		<pre><code>&lt;div
+  class="storepress-tooltip-type-image"
+  style="--tooltip-image: url('images/sample.jpg')"
+  data-storepress-tooltip="Image caption"&gt;&lt;/div&gt;</code></pre>
+	</section>
+
+	<section id="edges">
+		<h2>Viewport-edge handling</h2>
+		<p class="lede">Tooltips shift horizontally to stay inside the viewport instead of clipping off-screen. Try the swatches pinned to the left and right edges of this card.</p>
+		<div class="card">
+			<div class="edge-row">
+				<button class="pill" style="--tooltip-max-width:220px;" type="button" data-storepress-tooltip="I stay inside the viewport even when my trigger sits at the left edge.">Left edge</button>
+				<button class="pill" style="--tooltip-max-width:220px;" type="button" data-storepress-tooltip="I stay inside the viewport even when my trigger sits at the right edge.">Right edge</button>
+			</div>
+		</div>
+	</section>
+
+	<section id="rtl">
+		<h2>RTL support</h2>
+		<p class="lede">Wrap content in a <code>dir="rtl"</code> container and the plugin automatically mirrors tooltip and arrow offsets.</p>
+		<div class="card">
+			<div class="rtl-block">
+				<div class="row">
+					<button class="pill" type="button" data-storepress-tooltip="نص تلميح بسيط">تحوم هنا</button>
+					<button class="pill" type="button" data-storepress-tooltip="یک نکته ابزار ساده">روی من نگه دار</button>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section id="accessibility">
+		<h2>Accessibility</h2>
+		<p class="lede">Elements with <code>tabindex</code> show their tooltip on <code>:focus-visible</code> as well as hover, so keyboard users get the same information. Motion is disabled automatically when the OS <code>prefers-reduced-motion</code>.</p>
+		<div class="card row">
+			<button class="pill" type="button" tabindex="0" data-storepress-tooltip="Tab to me, then Shift+Tab back">Try Tab / Shift+Tab</button>
+		</div>
+	</section>
+
+	<section id="api">
+		<h2>JavaScript API</h2>
+		<p class="lede">Every tooltip is controllable at runtime through <code>StorePressTooltip</code> (or <code>StorePress.Utils.getStorePressPlugin('tooltip')</code> when using the global build).</p>
+
+		<div class="card">
+			<div class="row spaced">
+				<div class="row">
+					<span class="pill" id="api-target" type="button" tabindex="0" data-storepress-tooltip="Watch me while you click the buttons">API target</span>
+				</div>
+				<div class="row">
+					<button class="chip-btn" id="btn-destroy">destroy()</button>
+					<button class="chip-btn" id="btn-init">init()</button>
+					<button class="chip-btn" id="btn-reload">reload()</button>
+					<button class="chip-btn" id="btn-get">get() instance count</button>
+				</div>
+			</div>
+			<p class="status" id="api-status">Ready.</p>
+		</div>
+
+		<pre><code>import StorePressTooltip from '@storepress/tooltip'
+
+document.addEventListener('DOMContentLoaded', () => {
+  StorePressTooltip.init()      // (re)attach events to matching elements
+  StorePressTooltip.destroy()   // detach events, keep tooltips queryable
+  StorePressTooltip.reload()    // destroy() + init()
+})
+
+// From anywhere else, without importing the module directly:
+const Tooltip = StorePress.Utils.getStorePressPlugin('tooltip')
+Tooltip.destroy()
+Tooltip.init()
+
+const all = StorePress.Utils.getStorePressPlugin('tooltip').get()
+const one = StorePress.Utils.getPluginInstance('#api-target', 'tooltip')</code></pre>
+	</section>
+
+	<section id="install">
+		<h2>Install &amp; wire up</h2>
+		<p class="lede">Two ways to use this in your own project.</p>
+		<div class="card">
+			<p><strong>1. Prebuilt (this demo's approach)</strong> — after <code>npm install &amp;&amp; npm run build</code>, load the three build files:</p>
+			<pre><code>&lt;link rel="stylesheet" href="./build/style-tooltip.css" /&gt;
+&lt;script src="./build/storepress-utils.js"&gt;&lt;/script&gt;
+&lt;script src="./build/tooltip.js"&gt;&lt;/script&gt;
+
+&lt;button data-storepress-tooltip="Tooltip text"&gt;Hover&lt;/button&gt;</code></pre>
+
+			<p><strong>2. As an npm package</strong> in a bundled project:</p>
+			<pre><code>npm i @storepress/tooltip @storepress/utils --save</code></pre>
+			<pre><code>// custom-tooltip.scss
+@use "~@storepress/tooltip/src/mixins" as plugin;
+
+:where([data-storepress-tooltip]) {
+  @include plugin.init("data-storepress-tooltip");
+}
+
+[data-storepress-tooltip] {
+  --tooltip-text-color: #ffffff;
+  --tooltip-background-color: #e31616;
+}</code></pre>
+			<pre><code>// scripts.js
+import StorePressTooltip from '@storepress/tooltip'
+
+document.addEventListener('DOMContentLoaded', () => {
+  StorePressTooltip.init()
+})</code></pre>
+			<p>See <code>README.md</code> for the full API, including <code>reset()</code> per-instance and RTL/reduced-motion notes.</p>
+		</div>
+	</section>
+
+</main>
+
+<script>
+	document.addEventListener('DOMContentLoaded', () => {
+		const statusEl = document.getElementById('api-status');
+		const Tooltip = StorePress.Utils.getStorePressPlugin('tooltip');
+
+		const setStatus = (message) => {
+			statusEl.textContent = message;
+		};
+
+		document.getElementById('btn-destroy').addEventListener('click', () => {
+			Tooltip.destroy();
+			setStatus('destroy() called — hover/focus events removed from all tooltips. Now it is plain css tooltip.');
+		});
+
+		document.getElementById('btn-init').addEventListener('click', () => {
+			Tooltip.init();
+			setStatus('init() called — hover/focus events (re)attached to all tooltips.');
+		});
+
+		document.getElementById('btn-reload').addEventListener('click', () => {
+			Tooltip.reload();
+			setStatus('reload() called — destroy() + init() in one step.');
+		});
+
+		document.getElementById('btn-get').addEventListener('click', () => {
+			const instances = Tooltip.get();
+			setStatus(`get() returned ${instances.length} active tooltip instance(s).`);
+		});
+	});
+
+	(function() {
+		const pre = document.getElementsByTagName('pre'),
+		      pl = pre.length;
+		for (let i = 0; i < pl; i++) {
+			pre[i].innerHTML = '<span class="line-number"></span>' + pre[i].innerHTML + '<span class="cl"></span>';
+			let num = pre[i].innerHTML.split(/\n/).length;
+			for (let j = 0; j < num; j++) {
+				let line_num = pre[i].getElementsByTagName('span')[0];
+				line_num.innerHTML += '<span>' + (j + 1) + '</span>';
+			}
+		}
+	})();
+</script>
+
 </body>
 </html>

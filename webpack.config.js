@@ -10,7 +10,7 @@ const {
 	getFile,
 	getWebPackAlias,
 } = require('./tools/webpack-helpers')
-const WoocommerceDependencyExtractionWebpackPlugin = require('@woocommerce/dependency-extraction-webpack-plugin')
+// const WoocommerceDependencyExtractionWebpackPlugin = require('@woocommerce/dependency-extraction-webpack-plugin')
 const DependencyExtractionWebpackPlugin = require('@wordpress/dependency-extraction-webpack-plugin')
 const RemoveEmptyScriptsPlugin = require('webpack-remove-empty-scripts')
 
@@ -45,7 +45,7 @@ const scriptConfig = {
 			(plugin) =>
 				plugin.constructor.name !== 'DependencyExtractionWebpackPlugin',
 		),
-		new WoocommerceDependencyExtractionWebpackPlugin({
+		new DependencyExtractionWebpackPlugin({
 			requestToExternal,
 			requestToHandle,
 			requestToExternalModule,
